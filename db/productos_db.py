@@ -21,3 +21,10 @@ def ver_producto(codigo):
     conexion.commit()
     conexion.cerrar()
     return datos
+
+def ver_todos(codigo):
+    conexion.consulta(f'SELECT * FROM Productos')
+    datos = conexion.cursor().fetchall()
+    conexion.commit()
+    conexion.cerrar()
+    return datos
