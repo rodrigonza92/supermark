@@ -1,4 +1,5 @@
-from db import persona_db
+import db.persona_db as persona_db
+
 class Persona:
     def __init__(self, id, nombre, apellido, dni, condicion):
         self.__id = id
@@ -44,12 +45,12 @@ class Persona:
         return self.__condicion
 
     @condicion.setter
-    def id(self, condicion):
+    def condicion(self, condicion):
         self.__condicion = condicion
 
     def crear_persona(self):
-        persona_db.insertar_persona(self.__nombre, self.__apellido, self.__dni, self.__condicion)
-    
+        persona_db.insertar_persona(self.__id, self.__nombre, self.__apellido, self.__dni, self.__condicion)
+        
     def eliminar_persona(self):
         persona_db.eliminar_persona(self.__dni)
     

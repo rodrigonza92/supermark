@@ -1,5 +1,6 @@
-import db.conexion as conexion
+from db.conexion import Conexion
 
+conexion = Conexion('supermark.db')
 def insertar_detalle(id_factura, id_producto, cantidad, precio):
     
     conexion.consulta(f'INSERT INTO Detalles VALUES(NULL, {id_factura}, {id_producto}, {cantidad}, {precio})')

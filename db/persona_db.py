@@ -1,7 +1,8 @@
-import db.conexion as conexion
+from db.conexion import Conexion
 
-def insertar_persona(nombre, apellido, dni, condicion):
-    conexion.consulta(f'INSERT INTO Persona VALUES(NULL,"{nombre}","{apellido}",{dni},"{condicion}"')
+conexion = Conexion('supermark.db')
+def insertar_persona(id, nombre, apellido, dni, condicion):
+    conexion.consulta(f'INSERT INTO Persona VALUES({id},"{nombre}","{apellido}",{dni},"{condicion}")')
     conexion.commit()
     conexion.cerrar()
 
