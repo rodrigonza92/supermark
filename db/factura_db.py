@@ -1,6 +1,6 @@
-import db.conexion as conexion
+from db.conexion import Conexion
 from datetime import datetime
-
+conexion = Conexion('supermark.db')
 def insertar_factura(estado, id_factura):
     fecha = (datetime.now()).date()
     conexion.consulta(f'INSERT INTO Factura VALUES(NULL,"{fecha}","{estado}""')
