@@ -1,21 +1,12 @@
 import db.persona_db as persona_db
 
 class Persona:
-    def __init__(self, id, nombre, apellido, dni, condicion):
-        self.__id = id
+    def __init__(self, nombre, apellido, dni, condicion):
         self.__nombre = nombre
         self.__apellido = apellido
         self.__dni = dni
         self.__condicion = condicion
-    
-    @property
-    def id(self):
-        return self.__id
-
-    @id.setter
-    def id(self, id):
-        self.__id = id
-    
+        
     @property
     def nombre(self):
         return self.__nombre
@@ -49,10 +40,10 @@ class Persona:
         self.__condicion = condicion
 
     def crear_persona(self):
-        persona_db.insertar_persona(self.__id, self.__nombre, self.__apellido, self.__dni, self.__condicion)
+        persona_db.insertar_persona(self.__nombre, self.__apellido, self.__dni, self.__condicion)
         
-    def eliminar_persona(self):
-        persona_db.eliminar_persona(self.__dni)
+    def eliminar_persona(self, dni):
+        persona_db.eliminar_persona(dni)
     
     def editar_persona(self):
         persona_db.editar_persona(self.__nombre, self.__apellido, self.__dni, self.__condicion, self.__id)

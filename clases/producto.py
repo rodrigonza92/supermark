@@ -1,19 +1,10 @@
 from db import productos_db
 class Producto:
-    def __init__(self, id, nombre, detalle, stock, precio):
-        self.__id = id
+    def __init__(self, nombre, detalle, stock, precio):
         self.__nombre = nombre
         self.__detalle = detalle
         self.__stock = stock
         self.__precio = precio
-    
-    @property
-    def id(self):
-        return self.__id
-
-    @id.setter
-    def id(self, id):
-        self.__id = id
     
     @property
     def nombre(self):
@@ -50,11 +41,14 @@ class Producto:
     def crear_producto(self):
         productos_db.insertar_producto(self.__nombre, self.__detalle, self.__stock, self.__precio)
     
-    def eliminar_producto(self):
-        productos_db.eliminar_producto(self.__id)
+    def eliminar_producto(self, codigo):
+        productos_db.eliminar_producto(codigo)
     
-    def editar_producto(self):
-        productos_db.editar_producto(self.__nombre, self.__detalle, self.__stock, self.__precio, self.__id)
+    def editar_producto(self, codigo):
+        productos_db.editar_producto(self.__nombre, self.__detalle, self.__stock, self.__precio, codigo)
     
-    def ver_producto(self):
-        productos_db.ver_producto(self.__id)
+    def ver_producto(self, codigo):
+        productos_db.ver_producto(codigo)
+    
+    def ver_todo(self):
+        productos_db.ver_todos()
