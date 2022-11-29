@@ -1,6 +1,5 @@
 from db.conexion import Conexion
-import clases.persona as persona
-import clases.producto as producto
+from clases import persona, producto, detalle, factura
 
 conexion = Conexion('supermark.db')
 conexion.crear_db()
@@ -28,8 +27,8 @@ listaPersonas = [("Edgar", "Hurtado", 32453897, "cliente"),
 ("Jose", "Alvarado",32453837,"administrador")]
 
 for i in listaPersonas:
-    per = persona.Persona(i[0],i[1],i[2],i[3])
-    per.crear_persona()
+    per = persona.Persona()
+    per.crear_persona(i[0],i[1],i[2],i[3])
 
 # Prueba de carga de datos de Productos
 listaProductos = [("Harina", "000", 30, 150),
@@ -41,8 +40,8 @@ listaProductos = [("Harina", "000", 30, 150),
 ("Leche", "Sancor", 25, 250)]
 
 for j in listaProductos:
-    pro = producto.Producto(j[0], j[1], j[2], j[3])
-    pro.crear_producto()
+    pro = producto.Producto()
+    pro.crear_producto(j[0], j[1], j[2], j[3])
 
 # Prueba funcion eliminar producto
 codigo = 2
@@ -54,8 +53,25 @@ per.eliminar_persona(dni)
 #print('Producto y Persona eliminada')
 
 # Prueba VER PRODUCTO ---- No se porque tira error NoneType
-codigo = 5
-#dato = pro.ver_producto(codigo)
-#print(dato)
+""" codigo = 5 
+print(pro.ver_producto(codigo)) #Prueba ver producto
+print(pro.ver_todo()) # Prueba ver TODOS los productos
+ """
+# Prueba Editar
+pro.editar_producto("Aceite", "Cocinero 1 lt", 30, 180, 1)
+per.editar_persona("Rodrigo", "Gonza", 36811278, "administrador", 1)
 
-pro.ver_todo()
+# Prueba VER PERSONA
+#print(per.ver_persona(36811278))
+
+# Prueba DETALLE Y FACTURA
+import clases.detalle as detalle
+import clases.factura as factura
+import db.productos_db as productos_db
+det = detalle.Detalle()
+det.crear_detalle(1,3,4)
+det.crear_detalle(1,1,5)
+det.ver_detalle()
+
+fac = factura.Factura()
+fac.crear_factura(36811278)
