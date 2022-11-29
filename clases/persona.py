@@ -45,8 +45,8 @@ class Persona:
     def eliminar_persona(self, dni):
         persona_db.eliminar_persona(dni)
     
-    def editar_persona(self):
-        persona_db.editar_persona(self.__nombre, self.__apellido, self.__dni, self.__condicion, self.__id)
+    def editar_persona(self, nombre, apellido, dni, condicion, codigo):
+        persona_db.editar_persona(nombre, apellido, dni, condicion, codigo)
     
-    def ver_persona(self):
-        persona_db.ver_persona(self.__dni)
+    def ver_persona(self, dni):
+        return persona_db.ver_persona(dni)

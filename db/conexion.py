@@ -16,8 +16,8 @@ class Conexion:
     def crear_db(self):
         self.cursor.execute('CREATE TABLE IF NOT EXISTS Persona(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, apellido TEXT, dni INTEGER, condicion TEXT)')
         self.cursor.execute('CREATE TABLE IF NOT EXISTS Productos(id INTEGER PRIMARY KEY AUTOINCREMENT, nombre TEXT, detalle TEXT, stock INTEGER, precio FLOAT)')
-        self.cursor.execute('CREATE TABLE IF NOT EXISTS Factura(id INTEGER PRIMARY KEY AUTOINCREMENT, id_persona INTEGER NOT NULL, fecha DATE , estado TEXT)')
-        self.cursor.execute('CREATE TABLE IF NOT EXISTS Detalles(id INTEGER PRIMARY KEY AUTOINCREMENT, id_factura INTEGER NOT NULL, id_producto INTEGER NOT NULL, cantidad INTEGER, precio FLOAT)')
+        self.cursor.execute('CREATE TABLE IF NOT EXISTS Factura(id INTEGER PRIMARY KEY AUTOINCREMENT, id_persona INTEGER NOT NULL, fecha DATE , estado TEXT, total FLOAT)')
+        self.cursor.execute('CREATE TABLE IF NOT EXISTS Detalles(id INTEGER PRIMARY KEY AUTOINCREMENT, id_factura INTEGER NOT NULL, id_producto INTEGER NOT NULL, cantidad INTEGER, precio FLOAT, subtotal FLOAT)')
         self.conexion.commit()
         self.conexion.close()
         # Puede tener el campo total la tabla de factura si es que se quiere

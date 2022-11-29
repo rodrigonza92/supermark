@@ -44,11 +44,11 @@ class Producto:
     def eliminar_producto(self, codigo):
         productos_db.eliminar_producto(codigo)
     
-    def editar_producto(self, codigo):
-        productos_db.editar_producto(self.__nombre, self.__detalle, self.__stock, self.__precio, codigo)
+    def editar_producto(self, nombre, detalle, stock, precio, codigo):
+        productos_db.editar_producto(nombre, detalle, stock, precio, codigo)
     
     def ver_producto(self, codigo):
-        productos_db.ver_producto(codigo)
+        return productos_db.ver_producto(codigo)
     
     def ver_todo(self):
-        productos_db.ver_todos()
+        return productos_db.ver_todos()
