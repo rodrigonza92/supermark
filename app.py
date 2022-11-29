@@ -27,8 +27,8 @@ listaPersonas = [("Edgar", "Hurtado", 32453897, "cliente"),
 ("Jose", "Alvarado",32453837,"administrador")]
 
 for i in listaPersonas:
-    per = persona.Persona(i[0],i[1],i[2],i[3])
-    per.crear_persona()
+    per = persona.Persona()
+    per.crear_persona(i[0],i[1],i[2],i[3])
 
 # Prueba de carga de datos de Productos
 listaProductos = [("Harina", "000", 30, 150),
@@ -40,8 +40,8 @@ listaProductos = [("Harina", "000", 30, 150),
 ("Leche", "Sancor", 25, 250)]
 
 for j in listaProductos:
-    pro = producto.Producto(j[0], j[1], j[2], j[3])
-    pro.crear_producto()
+    pro = producto.Producto()
+    pro.crear_producto(j[0], j[1], j[2], j[3])
 
 # Prueba funcion eliminar producto
 codigo = 2
@@ -72,7 +72,6 @@ det = detalle.Detalle()
 det.crear_detalle(1,3,4)
 det.crear_detalle(1,1,5)
 det.ver_detalle()
-
 
 fac = factura.Factura()
 fac.crear_factura(36811278)
