@@ -53,16 +53,16 @@ per.eliminar_persona(dni)
 #print('Producto y Persona eliminada')
 
 # Prueba VER PRODUCTO ---- No se porque tira error NoneType
-codigo = 5 
+""" codigo = 5 
 print(pro.ver_producto(codigo)) #Prueba ver producto
 print(pro.ver_todo()) # Prueba ver TODOS los productos
-
+ """
 # Prueba Editar
 pro.editar_producto("Aceite", "Cocinero 1 lt", 30, 180, 1)
 per.editar_persona("Rodrigo", "Gonza", 36811278, "administrador", 1)
 
 # Prueba VER PERSONA
-print(per.ver_persona(36811278))
+#print(per.ver_persona(36811278))
 
 # Prueba DETALLE Y FACTURA
 import clases.detalle as detalle
