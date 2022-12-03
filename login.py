@@ -5,7 +5,7 @@ class LoginVentana(tk.Tk):
     def __init__(self):
         super().__init__()
         # ventana principal
-        self.geometry('300x130')
+        self.geometry('300x150')
         self.title('Login')
         self.resizable(0,0)
         # configuración del grid
@@ -25,6 +25,10 @@ class LoginVentana(tk.Tk):
         # boton Login
         login_boton = ttk.Button(self, text='Siguiente', command=self.verificacion)
         login_boton.grid(row=3, column=0, columnspan=2)
+
+        # Omitir
+        omitir_boton = ttk.Button(self, text='Omitir', command=self.verificacion)
+        omitir_boton.grid(row=4, column=0, columnspan=2)
 
     def verificacion(self):
         # Si es admin debe ingresar clave
@@ -53,8 +57,12 @@ class LoginVentana(tk.Tk):
         # password
         password_etiqueta = ttk.Label(self, text='¿Usted es Rodrigo Gonza?:')
         password_etiqueta.grid(row=1, column=0, sticky=tk.E, padx=5, pady=5)
-        self.password_entrada = ttk.Entry(self, show='*')
-        self.password_entrada.grid(row=1, column=1, sticky=tk.W, padx=5, pady=5)
+        #self.password_entrada = ttk.Entry(self, show='*')
+        #self.password_entrada.grid(row=1, column=1, sticky=tk.W, padx=5, pady=5)
+        identif_boton = ttk.Button(self, text='Sí')
+        identif_boton.grid(row=2, column=0)
+        identif2_boton = ttk.Button(self, text='No')
+        identif2_boton.grid(row=2, column=1)
 
     def _login(self):
         messagebox.showinfo('Datos Login',
