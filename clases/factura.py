@@ -52,8 +52,11 @@ class Factura:
         self.__total = total  
     
     def crear_factura(self, dni):
-        dp = persona_db.ver_persona(dni)
-        self.__idPersona = dp[0]
+        if dni == 0:
+            self.__idPersona = 0
+        else:
+            dp = persona_db.ver_persona(dni)
+            self.__idPersona = dp[0]
         factura_db.insertar_factura(self.__idPersona)
     
     def editar_factura(self, idPersona, fecha, estado, codigo):

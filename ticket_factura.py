@@ -52,7 +52,10 @@ class Ticket:
     
     def imprimir_ticket(self):
         per = Persona()
-        dato_per = per.ver_persona(self.__dni)
+        if self.__idPersona == 0:
+            dato_per = [0,'No Registrado','',0,'No Cliente']
+        else:
+            dato_per = per.ver_persona(self.__dni)
         det = Detalle()
         dato_det = det.ver_detalle(self.__idFactura)
         subtotal = 0
@@ -108,6 +111,7 @@ class Ticket:
         print('¿Confirmar compra?')
         op = input('Si o No: ') 
         if op == 'Si' or op == 'si' or op == "SI": #Cambio de estado a pagado y actualizacion de total
+            fac.crear_factura(self.__dni)
             estado = 'pagado'
             total = fac.sum_total(self.__idFactura)
             fac.editar_estado_total(estado, total, self.__idFactura)
