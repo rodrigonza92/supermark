@@ -63,7 +63,8 @@ class Detalle:
         self.__idProducto = idProducto
         self.__cantidad = cantidad
         dato = productos_db.recuperar_precio(idProducto)
-        self.__precio = dato[0][4]
+        #print(dato[0])
+        self.__precio = dato[0] #Recupero el precio
         self.__subtotal = self.__cantidad * self.__precio
         detalle_db.insertar_detalle(self.__idFactura, self.__idProducto, self.__cantidad, self.__precio, self.__subtotal)
     
@@ -73,5 +74,5 @@ class Detalle:
     def eliminar_detalle(self, codigo):
         detalle_db.eliminar_detalle(codigo)
     
-    def ver_detalle(self):
-        return detalle_db.ver_detalle(self.__idFactura)
+    def ver_detalle(self, idFactura):
+        return detalle_db.ver_detalle(idFactura)

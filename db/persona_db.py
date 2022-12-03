@@ -21,8 +21,11 @@ def editar_persona(nombre, apellido, dni, condicion, codigo):
 
 def ver_persona(dni):
     conexion = Conexion(db) #Como evitar que tenga que poner el nombre de la bd
-    conexion.consulta(f'SELECT * FROM Persona WHERE dni={dni}')
-    datos = conexion.cursor.fetchall()
-    conexion.commit()
-    conexion.cerrar()
-    return datos
+    try:
+        conexion.consulta(f'SELECT * FROM Persona WHERE dni={dni}')
+        datos = conexion.cursor.fetchone()
+        conexion.commit()
+        conexion.cerrar()
+        return datos
+    except IndexError:
+        return 'Fuera de rango'
