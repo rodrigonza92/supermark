@@ -93,6 +93,8 @@ class Ticket:
         fichero.write(f'                    Descuento: $ {descuento}     {os.linesep}')
         fichero.write(f'       Su total a pagar es de: $ {total}         {os.linesep}')
         fichero.write(f'-----------------------------------------------{os.linesep}')
+        fichero.write(f'-------------¡GRACIAS POR SU COMPRA!-----------{os.linesep}')
+        fichero.write(f'-----------------------------------------------{os.linesep}')
 
         fichero.close()
     
@@ -112,6 +114,8 @@ class Ticket:
         op = input('Si o No: ') 
         if op == 'Si' or op == 'si' or op == "SI": #Cambio de estado a pagado y actualizacion de total
             fac.crear_factura(self.__dni)
+            #Retornar ID de Factura
+            self.__idFactura = fac.retornar_idFactura(self.__idPersona)
             estado = 'pagado'
             total = fac.sum_total(self.__idFactura)
             fac.editar_estado_total(estado, total, self.__idFactura)
@@ -149,19 +153,13 @@ class Ticket:
         per = Persona()
         fac = Factura()
         self.__dni = dni #Se setea en 0 en caso de ser invitado
-        
+        print(self.__dni)
         #Retornar ID de Persona
         if self.__dni == 0:
             self.__idPersona = 0
         else:
-            datos = per.ver_persona(self.__dni) 
-            self.__idPersona = datos[0]
-        
-        #Retornar ID de Factura
-        if self.__idPersona == 0:
-            self.__idFactura = 0
-        else:
-            self.__idFactura = fac.retornar_idFactura(self.__idPersona) 
+            datos = per.ver_persona(self.__dni)
+            self.__idPersona = datos[0] 
         
         carrito = []
         
@@ -217,8 +215,8 @@ class Ticket:
         else:
             os.system('clear')
 
-t = Ticket()
+#t = Ticket()
 #t.confirmar_compra()
 #t.imprimir_ticket(36811278, 23)
 #t.ver_ticket(36811278)
-t.datos_compra()
+#t.datos_compra()

@@ -1,5 +1,5 @@
 import os, platform, time
-import db.carga_datos as carga_datos
+import carga_datos as carga_datos
 from db.conexion import Conexion
 from clases import persona, producto, detalle, factura
 from db import detalle_db, persona_db, factura_db, productos_db
@@ -31,7 +31,7 @@ class Menu():
         print('(2) Soy Cliente')
         print('(3) No soy Cliente')
         
-        op = input()
+        op = input('Opcion: ')
         if op == '1':
             dni = int(input('Ingrese DNI: ')) #Como ingreso un espacio en blanco en DNI?
             self.__dni = dni
@@ -151,13 +151,12 @@ class Menu():
         print('(1) Hacer una Compra')
         print('(2) Ver todas mis facturas')
         print('(3) Salir')
-        op = input()
+        op = input('Opcion: ')
 
         if op == '1':
             self.clear()
             print('--CARRITO DE COMPRA--')
-            ticket_factura.Ticket().datos_compra()
-            ticket_factura.Ticket().ver_ticket(self.__dni)
+            ticket_factura.Ticket().datos_compra(self.__dni)
             self.clear()
             self.panel_cli()
         elif op == '2':
@@ -189,7 +188,7 @@ class Menu():
         print('Seleccione una opcion: ')
         print('(1) Hacer una Compra')
         print('(2) Salir')
-        op = input()
+        op = input('Opcion: ')
         
         if op == '1':
             self.clear()
@@ -213,5 +212,6 @@ class Menu():
             os.system('cls')
         else:
             os.system('clear')
+
 
 Menu().login()
