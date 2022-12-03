@@ -78,6 +78,9 @@ class Factura:
     def ver_todas(self, idPersona):
         return factura_db.ver_todas(idPersona)
     
+    def ver_todas_activas(self):
+        return factura_db.ver_todas_activas()
+
     def sum_total(self, idFactura):
         datos = detalle_db.ver_detalle(idFactura)
         total = sum((dato[5]) for dato in datos) #Sirve para hacer grandes sumas

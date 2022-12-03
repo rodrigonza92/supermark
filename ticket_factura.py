@@ -42,16 +42,18 @@ class Ticket:
         per = Persona()
         id = per.ver_persona(dni)
         datos = Factura().ver_todas(id[0])
-        print('\n-------------------------------------------------------')
-        print('                        FACTURAS                       ')
-        print('-------------------------------------------------------')
-        print(' ID  |  FECHA  |   ESTADO   |  TOTAL ')
-        print('-------------------------------------------------------')
+        print('\n-------------------------------------')
+        print('              FACTURAS                 ')
+        print('---------------------------------------')
+        print(' ID  |   FECHA   |   ESTADO   |  TOTAL ')
+        print('---------------------------------------')
         for i in datos:
-            print(str(i[0]).ljust(5, ' ')+'|'+str(i[2]).ljust(9,' ')+'|'+str(i[3]).ljust(12, ' ')+'|'+str(i[4]).ljust(8,' ')+'\n')
-    
+            print(str(i[0]).center(5, ' ')+'|'+str(i[2]).ljust(11,' ')+'|'+str(i[3]).ljust(12, ' ')+'|'+str(i[4]).ljust(8,' ')+'\n')
+            print('---------------------------------------')
+
     def imprimir_ticket(self):
         per = Persona()
+        fac = Factura()
         if self.__idPersona == 0:
             dato_per = [0,'No Registrado','',0,'No Cliente']
         else:
@@ -87,7 +89,7 @@ class Ticket:
         fichero.write(f'                     Subtotal: $ {subtotal}      {os.linesep}')
         
         # Estoy aplicando un descuento del 15%
-        descuento = 0.15 * subtotal
+        descuento = subtotal * fac.descuento(self.__idPersona)
         total = subtotal - descuento
         
         fichero.write(f'                    Descuento: $ {descuento}     {os.linesep}')
@@ -101,24 +103,25 @@ class Ticket:
     def cargar_ticket(self, carrito):
         det = Detalle()
         fac = Factura()
+        pro = Producto()
         carrito = carrito
-        
-        fac.crear_factura(self.__dni)
+
         for i in carrito:
             det.crear_detalle(self.__idFactura, i[0], i[1])
+            pro.decrementar_stock(i[0], i[1])
+        estado = 'pagado'
+        total = fac.sum_total(self.__idFactura)
+        fac.editar_estado_total(estado, total, self.__idFactura)
 
 
     def confirmar_compra(self, carrito):
         fac = Factura()
-        print('¿Confirmar compra?')
+        print('\n¿Confirmar compra?')
         op = input('Si o No: ') 
         if op == 'Si' or op == 'si' or op == "SI": #Cambio de estado a pagado y actualizacion de total
             fac.crear_factura(self.__dni)
             #Retornar ID de Factura
             self.__idFactura = fac.retornar_idFactura(self.__idPersona)
-            estado = 'pagado'
-            total = fac.sum_total(self.__idFactura)
-            fac.editar_estado_total(estado, total, self.__idFactura)
             self.cargar_ticket(carrito)
             self.imprimir_ticket()
             print('Ticket Generado con Exito!')
@@ -153,7 +156,6 @@ class Ticket:
         per = Persona()
         fac = Factura()
         self.__dni = dni #Se setea en 0 en caso de ser invitado
-        print(self.__dni)
         #Retornar ID de Persona
         if self.__dni == 0:
             self.__idPersona = 0
@@ -172,11 +174,14 @@ class Ticket:
     def agregar_producto(self, list=[]):
         carrito = list
         op = 'si'      
-        while op == 'si':
+        while op.lower() == 'si':
+            self.ver_productos()
             idProducto = int(input('Ingrese codigo de producto: '))
             cantidad = int(input('¿Cuantos articulos desea llevar? '))
             carrito.append((idProducto, cantidad))
-            op = input('¿Desea ingresar otro Producto?: ')
+            print('Producto Agregado al Carrito')
+            print('\n¿Desea ingresar otro Producto?: ')
+            op = input('Si o No: ')
         return carrito
     
     def quitar_producto(self,list=[]):
@@ -185,9 +190,17 @@ class Ticket:
         carrito.pop(orden)
         print('Producto Eliminado\n')
 
-
-        
-        
+    def ver_productos(self):
+        pro = Producto()
+        datos_pro = pro.ver_todo()
+        print('\n------------------------------------------')
+        print('          PRODUCTOS DISPONIBLES             ')
+        print('--------------------------------------------')
+        print(' CODIGO | PRODUCTO |    DETALLE    | PRECIO ')
+        print('--------------------------------------------')
+        for i in datos_pro:
+            print(str(i[0]).center(8, ' ')+'|'+str(i[1]).center(10, ' ')+'|'+str(i[2]).center(15,' ')+'|'+str(i[4]).center(10, ' ')+'\n')
+        print('--------------------------------------------')
         #Falta la opcion de edicion de productos
         #Falta la actualizacion de Stock luego de la compra
         #Falta Aplicar los descuentos para los clientes
@@ -207,6 +220,20 @@ class Ticket:
             producto = pro.ver_producto(i[0])
             subtotal = (i[1] * producto[4])
             print(str(orden).center(7, ' ')+'|'+str(producto[1]).center(10, ' ')+'|'+producto[2].center(15,' ')+'|'+str(i[1]).center(10, ' ')+'|'+str(subtotal).rjust(10, ' ')+'\n')
+
+    def ver_usuarios_activos(self):
+        fac = Factura()
+        datos = fac.ver_todas_activas()
+
+        print('\n--------------------------------------------')
+        print('          FACTURAS DE CLIENTES ACTIVOS        ')
+        print('----------------------------------------------')
+        print(' ID  | ID PERSONA |   FECHA   |   ESTADO   |  TOTAL ')
+        print('----------------------------------------------')
+        for i in datos:
+            print(str(i[0]).center(5, ' ')+'|'+str(i[1]).center(12, ' ')+'|'+str(i[2]).ljust(11,' ')+'|'+str(i[3]).ljust(12, ' ')+'|'+str(i[4]).ljust(8,' ')+'\n')
+            print('----------------------------------------------')
+
 
     def clear(self):
         time.sleep(2)

@@ -44,6 +44,14 @@ def ver_todas(idPersona):
     conexion.cerrar()
     return datos
 
+def ver_todas_activas():
+    conexion = Conexion(db)
+    conexion.consulta(f'SELECT * FROM Factura')
+    datos = conexion.cursor.fetchall()
+    conexion.commit()
+    conexion.cerrar()
+    return datos
+
 def recuperar_idFactura(idPersona):
     conexion = Conexion(db)
     conexion.consulta(f'SELECT id FROM Factura WHERE id_persona={idPersona} ORDER BY id DESC')

@@ -8,7 +8,7 @@ import ticket_factura
 
 conexion = Conexion('supermark.db')
 conexion.crear_db()
-carga_datos
+#carga_datos
 
 class Menu():
     def __init__(self) -> None:
@@ -56,11 +56,11 @@ class Menu():
             if datos[4] == "cliente":
                 verificacion = f'{datos[1]} {datos[2]}'
                 print(f'¿Usted es {verificacion}?')
-                op = input()
-                if op == 'si':
+                op = input('Si o No: ')
+                if op.lower() == 'si':
                     print('Logueo Exitoso!')
                     self.clear()
-                    print(f'Bienvenido {verificacion}')
+                    print(f'Bienvenido {verificacion}\n')
                     self.panel_cli()
                 else:
                     print('Datos invalidos\n')
@@ -78,9 +78,11 @@ class Menu():
         print('Seleccione una opcion: ')
         print('(1) Registrar Cliente')
         print('(2) Ingresar Producto')
-        print('(3) Actualizar STOCK de producto')
-        print('(4) Salir')
-        op = input()
+        print('(3) Modificar datos de un Producto')
+        print('(4) Actualizar STOCK de producto')
+        print('(5) Ver Usuarios que realizaron una compra')
+        print('(6) Salir')
+        op = input('Opcion: ')
 
         if op == '1':
             self.clear()
@@ -108,7 +110,20 @@ class Menu():
         
         elif op == '3':
             self.clear()
-            print('--ACTUALIZAR STOCK--')
+            print('--MODIFICAR PRODUCTO--')
+            idProducto = int(input('Ingrese ID del Producto que desea modificar: '))
+            nombre = input('Ingrese nombre de producto: ')
+            detalle = input('Ingrese detalle del producto: ')
+            stock = int(input('Ingrese cantidad de Stock: '))
+            precio = float(input('Ingrese precio unitario: '))
+            producto.Producto().editar_producto(nombre, detalle, stock, precio,idProducto)
+            print('Producto Modificado con Exito!')
+            self.clear()
+            self.panel_admin()
+
+        elif op == '4':
+            self.clear()
+            print('--ACTUALIZAR STOCK PRODUCTO--')
             print('(1) Incrementar stock de un producto')
             print('(2) Decrementar stock de un producto')
             print('(3) Salir')
@@ -135,7 +150,21 @@ class Menu():
                 self.clear()
                 self.panel_admin()
 
-        elif op == '4':
+        elif op == '5':
+            print('--Usuarios que Compraron--')
+            ticket_factura.Ticket().ver_usuarios_activos()
+            print('\n(1) Volver al Menu Anterior')
+            print('(0) Salir')
+
+            op1 = input('Opcion: ')
+            if op1 == '1':
+                self.clear()
+                self.panel_admin()
+            elif op1 == '2':
+                self.clear()
+                self.login()
+
+        elif op == '6':
             print('\nGracias por usar Nuestro Servicio!')
             self.clear()
             self.login()
@@ -165,7 +194,7 @@ class Menu():
             print('\n(1) Volver al Menu Anterior')
             print('(0) Salir')
 
-            op1 = input()
+            op1 = input('Opcion: ')
             if op1 == '1':
                 self.clear()
                 self.panel_cli()
@@ -199,6 +228,7 @@ class Menu():
 
         elif op == '2':
             print('Gracias por usar Nuestro Servicio!')
+            self.clear()
             self.login()
 
         else:
@@ -207,7 +237,7 @@ class Menu():
             self.panel_invitado()
     
     def clear(self):
-        time.sleep(2)
+        time.sleep(1)
         if platform.system() == 'Windows':
             os.system('cls')
         else:
