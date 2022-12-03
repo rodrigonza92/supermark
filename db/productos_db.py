@@ -23,7 +23,7 @@ def editar_producto(nombre, detalle, stock, precio,codigo):
 def ver_producto(codigo):
     conexion = Conexion(db)
     conexion.consulta(f'SELECT * FROM Productos WHERE id={codigo}')
-    datos = conexion.cursor.fetchall()
+    datos = conexion.cursor.fetchone()
     conexion.commit()
     conexion.cerrar()
     return datos
@@ -36,10 +36,22 @@ def ver_todos():
     conexion.cerrar()
     return datos
 
-def recuperar_precio(codigo):
+def recuperar_precio(idProducto):
     conexion = Conexion(db)
-    conexion.consulta(f'SELECT * FROM Productos WHERE id={codigo}')
-    precio = conexion.cursor.fetchall()
+    conexion.consulta(f'SELECT precio FROM Productos WHERE id={idProducto}')
+    precio = conexion.cursor.fetchone()
     conexion.commit()
     conexion.cerrar()
     return precio
+
+def incrementar_stock(idProducto, cantidad):
+    conexion = Conexion(db)
+    conexion.consulta(f'UPDATE Productos SET stock = stock + {cantidad} WHERE id={idProducto}')
+    conexion.commit()
+    conexion.cerrar()
+
+def decrementar_stock(idProducto, cantidad):
+    conexion = Conexion(db)
+    conexion.consulta(f'UPDATE Productos SET stock = stock - {cantidad} WHERE id={idProducto}')
+    conexion.commit()
+    conexion.cerrar()

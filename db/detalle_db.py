@@ -19,9 +19,9 @@ def editar_detalle(id_factura, id_producto, cantidad, precio, codigo):
     conexion.commit()
     conexion.cerrar()
 
-def ver_detalle(codigo):
+def ver_detalle(idFactura):
     conexion = Conexion(db)
-    conexion.consulta(f'SELECT * FROM Detalles WHERE id_factura={codigo}') #trae todos los detalles de una factra
+    conexion.consulta(f'SELECT * FROM Detalles WHERE id_factura={idFactura}') #trae todos los detalles de una factra
     datos = conexion.cursor.fetchall()
     conexion.commit()
     conexion.cerrar()

@@ -56,3 +56,9 @@ class Producto:
     
     def ver_todo(self):
         return productos_db.ver_todos()
+    
+    def incrementar_stock(self, idProducto, cantidad):
+        return productos_db.incrementar_stock(idProducto, cantidad)
+    
+    def decrementar_stock(self, idProducto, cantidad):
+        return productos_db.decrementar_stock(idProducto, cantidad)

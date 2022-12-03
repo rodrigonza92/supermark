@@ -54,3 +54,4 @@ class Persona:
     
     def ver_persona(self, dni):
         return persona_db.ver_persona(dni)
+    

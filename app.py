@@ -1,77 +1,217 @@
+import os, platform, time
+import db.carga_datos as carga_datos
 from db.conexion import Conexion
 from clases import persona, producto, detalle, factura
+from db import detalle_db, persona_db, factura_db, productos_db
+import ticket_factura
+
 
 conexion = Conexion('supermark.db')
 conexion.crear_db()
+carga_datos
 
-# Prueba carga de datos de persona aleatorio
-listaPersonas = [("Edgar", "Hurtado", 32453897, "cliente"),
-("Francisco", "Rosado", 23423533, "cliente"),
-("Inés", "Carrillo",20323533,"administrador"),
-("Luis", "Huertas",39873897,"administrador"),
-("Gloria", "Carrera",32445787,"cliente"),
-("Margarita", "Duran",29873533,"administrador"),
-("Ramón", "Rivera",23487633,"administrador"),
-("Francisco", "Cruz",36473897,"cliente"),
-("Valentín", "Aguado",29823533,"cliente"),
-("Melisa", "Cueto",36753897,"administrador"),
-("Catalina", "Aranda",23424233,"administrador"),
-("Ismael", "Peralta",23423763,"administrador"),
-("Elisabet", "Carrera",23423233,"cliente"),
-("Priscila", "Valdéz",32453889,"administrador"),
-("Jose Antonio", "Martinez",24423533,"cliente"),
-("Cristina", "Saavedra",32253897,"cliente"),
-("Alicia", "Godoy",32453887,"administrador"),
-("Leonel", "Goicoechea",23423553,"administrador"),
-("Valentina", "Villalobos",23433533,"cliente"),
-("Jose", "Alvarado",32453837,"administrador")]
+class Menu():
+    def __init__(self) -> None:
+        self.__dni = 0
+    
+    @property
+    def dni(self):
+        return self.__dni
 
-for i in listaPersonas:
-    per = persona.Persona()
-    per.crear_persona(i[0],i[1],i[2],i[3])
+    @dni.setter
+    def dni(self, dni):
+        self.__dni = dni
 
-# Prueba de carga de datos de Productos
-listaProductos = [("Harina", "000", 30, 150),
-("Harina", "0000", 20, 160),
-("Arroz", "Perseguido", 50, 130),
-("Arroz", "10 Minutos", 45, 130),
-("Fideos", "Luchetti", 70, 145.5),
-("Fideos", "Marolio", 55, 130),
-("Leche", "Sancor", 25, 250)]
+    print('Bienvenido a SUPERMARK\n')
+    
+    def login(self):
+        print('--LOGIN--')
+        print('Seleccione una opcion: ')
+        print('(1) Soy Administrador')
+        print('(2) Soy Cliente')
+        print('(3) No soy Cliente')
+        
+        op = input()
+        if op == '1':
+            dni = int(input('Ingrese DNI: ')) #Como ingreso un espacio en blanco en DNI?
+            self.__dni = dni
+            password = input('Ingrese contraseña: ') #Por default es 'admin'
 
-for j in listaProductos:
-    pro = producto.Producto()
-    pro.crear_producto(j[0], j[1], j[2], j[3])
+            datos = persona_db.ver_persona(dni)
+            if datos[4] == "administrador" and password == 'admin':                
+                print('Logueo Exitoso\n')
+                #print("Panel Administrador")
+                self.clear()
+                self.panel_admin()
+            else:
+                print('Datos invalidos\n')
+                self.clear()
+                self.login()
+        
+        elif op == '2':
+            dni = int(input('Ingrese DNI: '))
+            self.__dni = dni
+            datos = persona_db.ver_persona(dni)
 
-# Prueba funcion eliminar producto
-codigo = 2
-pro.eliminar_producto(codigo)
+            if datos[4] == "cliente":
+                verificacion = f'{datos[1]} {datos[2]}'
+                print(f'¿Usted es {verificacion}?')
+                op = input()
+                if op == 'si':
+                    print('Logueo Exitoso!')
+                    self.clear()
+                    print(f'Bienvenido {verificacion}')
+                    self.panel_cli()
+                else:
+                    print('Datos invalidos\n')
+                    self.clear()
+                    self.login()
 
-# Prueba funcion eliminar persona
-dni = 20323533
-per.eliminar_persona(dni)
-#print('Producto y Persona eliminada')
+        elif op == '3':
+            self.clear()
+            self.panel_invitado()
+        
+        
+        
+    def panel_admin(self):
+        print('--PANEL ADMINISTRADOR--')
+        print('Seleccione una opcion: ')
+        print('(1) Registrar Cliente')
+        print('(2) Ingresar Producto')
+        print('(3) Actualizar STOCK de producto')
+        print('(4) Salir')
+        op = input()
 
-# Prueba VER PRODUCTO ---- No se porque tira error NoneType
-""" codigo = 5 
-print(pro.ver_producto(codigo)) #Prueba ver producto
-print(pro.ver_todo()) # Prueba ver TODOS los productos
- """
-# Prueba Editar
-pro.editar_producto("Aceite", "Cocinero 1 lt", 30, 180, 1)
-per.editar_persona("Rodrigo", "Gonza", 36811278, "administrador", 1)
+        if op == '1':
+            self.clear()
+            print('--REGISTRAR CLIENTE--')
+            nombre = input('Ingrese nombre: ')
+            apellido = input('Ingrese apellido: ')
+            dni = int(input('Ingrese DNI: '))
+            condicion = input('¿Es "administrador" o "cliente"?: ')
+            persona.Persona().crear_persona(nombre, apellido, dni, condicion)
+            print('Nuevo Cliente Registrado!')
+            self.clear()
+            self.panel_admin()
+        
+        elif op == '2':
+            self.clear()
+            print('--INGRESAR PRODUCTO--')
+            nombre = input('Ingrese nombre de producto: ')
+            detalle = input('Ingrese detalle del producto: ')
+            stock = int(input('Ingrese cantidad de Stock: '))
+            precio = float(input('Ingrese precio unitario: '))
+            producto.Producto().crear_producto(nombre, detalle, stock, precio)
+            print('Nuevo Producto Agregado con Exito!')
+            self.clear()
+            self.panel_admin()
+        
+        elif op == '3':
+            self.clear()
+            print('--ACTUALIZAR STOCK--')
+            print('(1) Incrementar stock de un producto')
+            print('(2) Decrementar stock de un producto')
+            print('(3) Salir')
+            op1 = input()
+            if op1 == '1':
+                idProducto = int(input('Ingrese ID del Producto: '))
+                cantidad = int(input('Ingrese cuanto Stock desea ingresar: '))
+                producto.Producto().incrementar_stock(idProducto, cantidad)
+                print('\nActualizacion de Stock Exitosa')
+                self.clear()
+                self.panel_admin()
+            elif op1 == '2':
+                idProducto = int(input('Ingrese ID del Producto: '))
+                cantidad = int(input('Ingrese cuanto Stock desea sacar: '))
+                producto.Producto().decrementar_stock(idProducto, cantidad)
+                print('\nActualizacion de Stock Exitosa')
+                self.clear()
+                self.panel_admin()
+            elif op1 == '3':
+                self.clear()
+                self.panel_admin()
+            else:
+                print('\nOpcion Inválida')
+                self.clear()
+                self.panel_admin()
 
-# Prueba VER PERSONA
-#print(per.ver_persona(36811278))
+        elif op == '4':
+            print('\nGracias por usar Nuestro Servicio!')
+            self.clear()
+            self.login()
+        
+        else:
+            print('\nOpcion Inválida')
+            self.clear()
+            self.panel_admin()
+    
+    def panel_cli(self):
+        print('--PANEL CLIENTE--')
+        print('Seleccione una opcion: ')
+        print('(1) Hacer una Compra')
+        print('(2) Ver todas mis facturas')
+        print('(3) Salir')
+        op = input()
 
-# Prueba DETALLE Y FACTURA
-import clases.detalle as detalle
-import clases.factura as factura
-import db.productos_db as productos_db
-det = detalle.Detalle()
-det.crear_detalle(1,3,4)
-det.crear_detalle(1,1,5)
-det.ver_detalle()
+        if op == '1':
+            self.clear()
+            print('--CARRITO DE COMPRA--')
+            ticket_factura.Ticket().datos_compra()
+            ticket_factura.Ticket().ver_ticket(self.__dni)
+            self.clear()
+            self.panel_cli()
+        elif op == '2':
+            self.clear()
+            ticket_factura.Ticket().ver_facturas(self.__dni)
+            print('\n(1) Volver al Menu Anterior')
+            print('(0) Salir')
 
-fac = factura.Factura()
-fac.crear_factura(36811278)
+            op1 = input()
+            if op1 == '1':
+                self.clear()
+                self.panel_cli()
+            elif op1 == '2':
+                self.clear()
+                self.login()
+
+        elif op == '3':
+            print('\nGracias por usar Nuestro Servicio!')
+            self.clear()
+            self.login()
+
+        else:
+            print('\nOpcion Inválida')
+            self.clear()
+            self.panel_cli()
+
+    def panel_invitado(self):
+        print('--PANEL INVITADO--')
+        print('Seleccione una opcion: ')
+        print('(1) Hacer una Compra')
+        print('(2) Salir')
+        op = input()
+        
+        if op == '1':
+            self.clear()
+            print('--CARRITO DE COMPRA--')
+            ticket_factura.Ticket().datos_compra()
+            self.clear()
+            self.panel_invitado()
+
+        elif op == '2':
+            print('Gracias por usar Nuestro Servicio!')
+            self.login()
+
+        else:
+            print('Opcion Inválida')
+            self.clear()
+            self.panel_invitado()
+    
+    def clear(self):
+        time.sleep(2)
+        if platform.system() == 'Windows':
+            os.system('cls')
+        else:
+            os.system('clear')
+
+Menu().login()
