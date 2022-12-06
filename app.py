@@ -69,9 +69,7 @@ class Menu():
 
         elif op == '3':
             self.clear()
-            self.panel_invitado()
-        
-        
+            self.panel_invitado()   
         
     def panel_admin(self):
         print('--PANEL ADMINISTRADOR--')

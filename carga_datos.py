@@ -6,6 +6,7 @@ conexion.crear_db()
 
 # Prueba carga de datos de persona aleatorio
 listaPersonas = [("Rodrigo", "Gonza", 36811278, "cliente"),
+("Lionel", "Messi", 36811277, "administrador"),
 ("Edgar", "Hurtado", 32453897, "cliente"),
 ("Francisco", "Rosado", 23423533, "cliente"),
 ("Inés", "Carrillo",20323533,"administrador"),
