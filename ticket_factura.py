@@ -118,7 +118,7 @@ class Ticket:
         fac = Factura()
         print('\n¿Confirmar compra?')
         op = input('Si o No: ') 
-        if op == 'Si' or op == 'si' or op == "SI": #Cambio de estado a pagado y actualizacion de total
+        if op.lower() == 'si': #Cambio de estado a pagado y actualizacion de total
             fac.crear_factura(self.__dni)
             #Retornar ID de Factura
             self.__idFactura = fac.retornar_idFactura(self.__idPersona)
@@ -151,6 +151,9 @@ class Ticket:
         elif op1 == '4':
             print('Compra cancelada')
             pass
+        else:
+            print('Opcion inválida')
+            self.confirmacion()
     
     def datos_compra(self, dni=0):
         per = Persona()
@@ -166,6 +169,7 @@ class Ticket:
         carrito = []
         
         self.agregar_producto(carrito)
+        self.clear()
         print('\nVerifique su Detalle de Compra')
         self.vista_previa(carrito)
         self.confirmacion(carrito)
@@ -179,7 +183,7 @@ class Ticket:
             idProducto = int(input('Ingrese codigo de producto: '))
             cantidad = int(input('¿Cuantos articulos desea llevar? '))
             carrito.append((idProducto, cantidad)) #Aqui tengo que hacer la condicion de no comprar mas de 30 productos
-            print('Producto Agregado al Carrito')
+            print('\n"Producto Agregado al Carrito"')
             print('\n¿Desea ingresar otro Producto?: ')
             op = input('Si o No: ')
         return carrito

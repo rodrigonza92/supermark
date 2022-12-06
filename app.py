@@ -1,5 +1,5 @@
 import os, platform, time
-import carga_datos as carga_datos
+#import carga_datos as carga_datos
 from db.conexion import Conexion
 from clases import persona, producto, detalle, factura
 from db import detalle_db, persona_db, factura_db, productos_db
@@ -33,7 +33,7 @@ class Menu():
         
         op = input('Opcion: ')
         if op == '1':
-            dni = int(input('Ingrese DNI: ')) #Como ingreso un espacio en blanco en DNI?
+            dni = int(input('\nIngrese DNI: ')) #Como ingreso un espacio en blanco en DNI?
             self.__dni = dni
             password = input('Ingrese contraseña: ') #Por default es 'admin'
 
@@ -66,10 +66,18 @@ class Menu():
                     print('Datos invalidos\n')
                     self.clear()
                     self.login()
+            else:
+                print('\n"El DNI no corresponde a un cliente"')
+                self.clear()
+                self.login()
 
         elif op == '3':
             self.clear()
             self.panel_invitado()   
+        
+        else:
+            self.clear()
+            self.login()
         
     def panel_admin(self):
         print('--PANEL ADMINISTRADOR--')
@@ -176,8 +184,9 @@ class Menu():
         print('--PANEL CLIENTE--')
         print('Seleccione una opcion: ')
         print('(1) Hacer una Compra')
-        print('(2) Ver todas mis facturas')
-        print('(3) Salir')
+        print('(2) Ver Productos')
+        print('(3) Ver todas mis facturas')
+        print('(4) Salir')
         op = input('Opcion: ')
 
         if op == '1':
@@ -186,7 +195,27 @@ class Menu():
             ticket_factura.Ticket().datos_compra(self.__dni)
             self.clear()
             self.panel_cli()
+        
         elif op == '2':
+            self.clear()
+            print('--VER PRODUCTOS--')
+            ticket_factura.Ticket().ver_productos()
+            print('\n(1) Volver al Menu Anterior')
+            print('(0) Salir')
+
+            op1 = input('Opcion: ')
+            if op1 == '1':
+                self.clear()
+                self.panel_cli()
+            elif op1 == '2':
+                self.clear()
+                self.login()
+            else:
+                print('La opcion ingresada es inválida')
+                self.clear()
+                self.panel_invitado()
+
+        elif op == '3':
             self.clear()
             ticket_factura.Ticket().ver_facturas(self.__dni)
             print('\n(1) Volver al Menu Anterior')
@@ -200,7 +229,7 @@ class Menu():
                 self.clear()
                 self.login()
 
-        elif op == '3':
+        elif op == '4':
             print('\nGracias por usar Nuestro Servicio!')
             self.clear()
             self.login()
@@ -214,7 +243,8 @@ class Menu():
         print('--PANEL INVITADO--')
         print('Seleccione una opcion: ')
         print('(1) Hacer una Compra')
-        print('(2) Salir')
+        print('(2) Ver productos disponibles')
+        print('(3) Salir')
         op = input('Opcion: ')
         
         if op == '1':
@@ -225,6 +255,25 @@ class Menu():
             self.panel_invitado()
 
         elif op == '2':
+            self.clear()
+            print('--VER PRODUCTOS--')
+            ticket_factura.Ticket().ver_productos()
+            print('\n(1) Volver al Menu Anterior')
+            print('(0) Salir')
+
+            op1 = input('Opcion: ')
+            if op1 == '1':
+                self.clear()
+                self.panel_invitado()
+            elif op1 == '2':
+                self.clear()
+                self.login()
+            else:
+                print('La opcion ingresada es inválida')
+                self.clear()
+                self.panel_invitado()
+
+        elif op == '3':
             print('Gracias por usar Nuestro Servicio!')
             self.clear()
             self.login()
