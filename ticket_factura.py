@@ -178,7 +178,7 @@ class Ticket:
             self.ver_productos()
             idProducto = int(input('Ingrese codigo de producto: '))
             cantidad = int(input('¿Cuantos articulos desea llevar? '))
-            carrito.append((idProducto, cantidad))
+            carrito.append((idProducto, cantidad)) #Aqui tengo que hacer la condicion de no comprar mas de 30 productos
             print('Producto Agregado al Carrito')
             print('\n¿Desea ingresar otro Producto?: ')
             op = input('Si o No: ')

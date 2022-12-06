@@ -7,7 +7,7 @@ class LoginVentana(tk.Tk):
         # ventana principal
         self.geometry('400x400')
         self.title('Registro')
-        self.iconbitmap('GUI/image/icons/tienda.ico')
+        #self.iconbitmap('GUI/image/icons/tienda.ico')
         self.var_op = IntVar()
         #self.resizable(0,0)
         #self['bg']= '#14E7E7'
