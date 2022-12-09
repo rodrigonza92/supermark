@@ -59,13 +59,12 @@ class Detalle:
         self.__subtotal = subtotal
 
     def crear_detalle(self, idFactura, idProducto, cantidad):
-        self.__idFactura = idFactura
+        self.__idFactura = idFactura #Se encapsula cada dato recibido
         self.__idProducto = idProducto
         self.__cantidad = cantidad
-        dato = productos_db.recuperar_precio(idProducto)
-        #print(dato[0])
+        dato = productos_db.recuperar_precio(idProducto) #recupera el precio de un producto
         self.__precio = dato[0] #Recupero el precio
-        self.__subtotal = self.__cantidad * self.__precio
+        self.__subtotal = self.__cantidad * self.__precio # El subtotal es un campo calculado que luego se guarda en la base de datos
         detalle_db.insertar_detalle(self.__idFactura, self.__idProducto, self.__cantidad, self.__precio, self.__subtotal)
     
     def editar_detalle(self, idFactura, idProducto, cantidad, precio, codigo):
