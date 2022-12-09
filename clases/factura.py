@@ -27,14 +27,6 @@ class Factura:
     def idPersona(self, idPersona):
         self.__idPersona = idPersona
     
-    """ @property
-    def fecha(self):
-        return self.__fecha
-
-    @fecha.setter
-    def fecha(self, fecha):
-        self.__fecha = fecha """
-    
     @property
     def estado(self):
         return self.__estado
@@ -101,7 +93,7 @@ class Factura:
             cantidad += 1
         return cantidad
     
-    def descuento(self, idPersona): #Entre mas compra, mayor es el descuento
+    def descuento(self, idPersona): #Entre mas compra de un cliente, mayor es el descuento
         descuento = 0
         cantidad = self.cantidad_facturas(idPersona)
         if cantidad <= 5:

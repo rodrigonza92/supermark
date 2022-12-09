@@ -20,4 +20,3 @@ class Conexion:
         self.cursor.execute('CREATE TABLE IF NOT EXISTS Detalles(id INTEGER PRIMARY KEY AUTOINCREMENT, id_factura INTEGER NOT NULL, id_producto INTEGER NOT NULL, cantidad INTEGER, precio FLOAT, subtotal FLOAT, FOREIGN KEY(id_factura) REFERENCES Factura(id), FOREIGN KEY(id_producto) REFERENCES Productos(id))')
         self.conexion.commit()
         self.conexion.close()
-        # Puede tener el campo total la tabla de factura si es que se quiere
